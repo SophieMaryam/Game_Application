@@ -30,7 +30,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
     var nextFire = 0; 
     var enemies;
     var jumpButton;
-    var jumpTimer;
+    var jumpTimer = 0;
 
 
 	function create(){
