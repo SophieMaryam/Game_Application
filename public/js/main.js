@@ -160,10 +160,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 	function update() {
 
-		game.physics.arcade.collide(player, platforms);
-		game.physics.arcade.collide(stars, platforms);
-		game.physics.arcade.overlap(player, stars, collectStar, null, this);
-		player.body.velocity.x = 0;
+		var hitPlatform = game.physics.arcade.collide(player, platforms);
+		hitPlatform = game.physics.arcade.collide(stars, platforms);
+		hitPlatform = game.physics.arcade.overlap(player, stars, collectStar, null, this);
+		hitPlatform = player.body.velocity.x = 0;
 
 
 	    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
@@ -183,10 +183,15 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 			}
 
-		if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+		if(game.input.keyboard.isDown(Phaser.Keyboard.UP))
+	  		{
+	  			player.y -= 4;	
+	  		}
+	  	else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
 		    {
 		       player.y += 4;	
 		    }
+		
 		if (fireButton.isDown) 
 			{
 	      	  fireBullet();
@@ -195,8 +200,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	  	if (jumpButton.isDown && player.body.touching.down && game.time.now > jumpTimer)
 	    	{
 		        player.body.velocity.y = -250;
-		        jumpTimer = game.time.now + 750
-	        	// s.frame = 9;
+		        jumpTimer = game.time.now + 75;
     	}
 
     	 if (game.time.now > firingTimer)
