@@ -15,7 +15,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		game.load.image('droidbullet', 'assets/images/bullet.png');
 		game.load.audio('jump', ['assets/audio/phaseJump2.mp3']);
 		game.load.audio('p_shoot', ['assets/audio/laser3.mp3']);
-		game.load.audio('e_shoot', ['assets/audio/laser7.mp3'])
+		game.load.audio('e_shoot', ['assets/audio/laser7.mp3']);
+		game.load.audio('pdeath', ['assets/audio/lowDown.mp3'])
 	}
 
 	var background;
@@ -287,6 +288,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		if (lives.countLiving() < 1) {
 		        player.kill();
 		        enemyBullets.callAll('kill');
+		        var pdeath = game.add.audio('pdeath');
+		    	pdeath.play(); 
 
 		        gameOver.text=" GAME OVER \n Click to restart";
 		        gameOver.visible = true;
