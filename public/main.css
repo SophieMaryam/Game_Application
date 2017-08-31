@@ -1,0 +1,22 @@
+.container {
+	background:url("https://giphy.com/embed/T1Ce0A4ToxXXO")no-repeat center center fixed;
+	background-size:cover;
+	-webkit-background-size: cover;
+	-o-background-size: cover;
+	height:900px;
+	width:100%;
+}
+
+.containercontent {
+	color:white;
+	font-family: 'Raleway', sans-serif;
+	text-align:center;
+	padding-top:300px;
+	text-transform: uppercase
+    
+}
+
+.containercontent h1 {
+	text-shadow: 1.3px 1.3px black;
+	font-size:50px;
+}	

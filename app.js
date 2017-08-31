@@ -4,21 +4,9 @@ const path = require('path');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setting up Pug
 app.set('views',__dirname + '/src/views');
 app.set('view engine', 'pug');
-
-// Game 
-app.get('/', function(req, res) {
-    res.render('index');
-});
-
-app.listen(8080, () => {
-	console.log("Listening");
-	console.log(__dirname);
-});
-
-
-
 
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -34,9 +22,6 @@ const sequelize = new Sequelize('final_project', process.env.POSTGRES_USER, proc
 		timestamps: false
 	}
 });
-
-// Setting up Pug
-
 
 
 app.use('/', bodyParser.urlencoded({extended:true}));
@@ -83,8 +68,13 @@ sequelize.sync({force:false});
 
 // Home page
 app.get('/',(req,res) => {
-	var user = req.session.user;
-	res.render('index', {user:user})
+	// var user = req.session.user;
+	res.render('homepage')
+});
+
+// Game 
+app.get('/game', function(req, res) {
+    res.render('index');
 });
 
 
@@ -199,15 +189,10 @@ app.get('/profile',(req,res) => {
 	}
 });
 
-// Chat
-
-app.get('/chat', (req, res) => {
-	var user = req.session.user
-	 if(!user){
-		res.redirect('/?message=' + encodeURIComponent("Please log in."));
-	} else {
-		res.render('profile', {user: user});
-	}
+// Server
+app.listen(8080, () => {
+	console.log("Listening");
+	console.log(__dirname);
 });
 
 
