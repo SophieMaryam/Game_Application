@@ -13,7 +13,9 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		game.load.image('tileground', 'assets/images/tileground.png');	
 		game.load.image('droid', 'assets/images/ufo.png');
 		game.load.image('droidbullet', 'assets/images/bullet.png');
-		game.load.audio('jump', [])
+		game.load.audio('jump', ['assets/audio/phaseJump2.mp3']);
+		game.load.audio('p_shoot', ['assets/audio/laser3.mp3']);
+		game.load.audio('e_shoot', ['assets/audio/laser7.mp3'])
 	}
 
 	var background;
@@ -204,6 +206,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	  	if (jumpButton.isDown && player.body.touching.down && game.time.now > jumpTimer){
 		        player.body.velocity.y = -250;
 		        jumpTimer = game.time.now + 75;
+		        var snd = game.add.audio('jump');
+		        snd.play();
     	}
 
     	// Firing time - enemy
@@ -238,7 +242,9 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	        //  And fire it
 	        bullet.reset(player.x+5, player.y-45);
 	        bullet.body.velocity.x = -400;
-	        nextFire = game.time.now + fireRate;     
+	        nextFire = game.time.now + fireRate; 
+	        var shoot = game.add.audio('p_shoot');
+		    shoot.play();   
 	    } 	 
 	}
 
@@ -295,6 +301,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
    		livingEnemies.length=0;
     	enemies.forEachAlive(function(enemies){    		
     	livingEnemies.push(enemies);
+    	var eshoot = game.add.audio('e_shoot');
+		eshoot.play(); 
 
     	});
 
