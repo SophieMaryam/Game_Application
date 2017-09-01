@@ -15,8 +15,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		game.load.image('droidbullet', 'assets/images/bullet.png');
 		game.load.audio('jump', ['assets/audio/phaseJump2.mp3']);
 		game.load.audio('p_shoot', ['assets/audio/laser3.mp3']);
-		game.load.audio('e_shoot', ['assets/audio/laser7.mp3']);
-		game.load.audio('pdeath', ['assets/audio/lowDown.mp3'])
+		game.load.audio('e_shoot', ['assets/audio/zap1.mp3']);
+		game.load.audio('pdeath', ['assets/audio/lowDown.mp3']);
+		game.load.audio('stargrab', ['assets/audio/powerUp5.mp3']);
+		game.load.audio('backgroundsound', ['assets/audio/backgroundaudio.wav']);
 	}
 
 	var background;
@@ -32,8 +34,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	var stars;
  	var score = 0;
  	var scoreText;
- 	var livesCounter = 3;
- 	var lives = null;
+ 	var healthCounter = 3;
     var winText;
     var gameOver;
     var hitPlatform;
@@ -46,11 +47,20 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
     var tween;
     var tapRestart;
     var spaceRestart;
+    var backgroundmusic;
+    var health = 3;
+    var lives;
+    var livesText;
 
 
 	function create(){
 		game.physics.startSystem(Phaser.Physics.ARCADE); 
 		
+		//Music
+		backgroundmusic = game.add.audio('backgroundsound');
+		backgroundmusic.loopFull();
+		backgroundmusic.play();
+
 		//Background
 		background = this;	
 	 	background.fixedToCamera = true;
@@ -110,7 +120,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	    player.animations.add('left', [0, 1, 2, 3], 10, true);
     	player.animations.add('right', [5, 6, 7, 8], 10, true);
 		game.camera.follow(player);
-		jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);     
 
 		
 		// bad guys
@@ -144,7 +154,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 		// Lives
 		lives = game.add.group();
-		game.add.text(game.world.width - 130, 10, 'Lives: 3',  { font: '34px Arial', fill: '#fff' });
+		livesText = game.add.text(game.world.width - 130, 10, 'Lives: ' + health,  { font: '34px Arial', fill: '#fff' });
 
 		// Restart text
 		winText = game.add.text(game.world.centerX, game.world.centerY, ' ', { font: '84px Arial', fill: 'black' });
@@ -171,7 +181,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 
 	function update() {
-
+		// Collision relationships
 		game.physics.arcade.collide(player, platforms);
 		game.physics.arcade.collide(stars, platforms);
 		game.physics.arcade.overlap(player, stars, collectStar, null, this);
@@ -213,20 +223,26 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
     	// Firing time - enemy
     	if (game.time.now > firingTimer){
-           	 enemyFires();
+           	enemyFires();
         }
 	}
 
 	function collectStar (player, star) {
 	    star.kill();
+	    
+	    // star audio
+	    var starcollect = game.add.audio('stargrab');
+		starcollect.play(); 
 
+		// Star score
 	    score += 10;
 	    scoreText.text = 'Score: ' + score;
 	    
-	    if(score === 120){
+	    if(score === 160){
 	    	winText.text = " You Won, \n Click to restart";
 	        winText.visible = true;
-
+	        var starcollect = game.add.audio('stargrab');
+			starcollect.play(); 
 	         //the "click to restart" handler
 	        tapRestart = game.input.onTap.addOnce(restart,this);
 	    }
@@ -235,7 +251,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	function fireBullet() {	  
 		// Checks if you can fire the bullet
 		if(game.time.now > nextFire){
-			// grab first bullet available in the pool
+			// grabs first bullet available in the pool
 			var bullet = bullets.getFirstExists(false);
 		}
 
@@ -256,7 +272,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 	function collisionHandler (bullet, badguy) {
 	    bullet.kill(); 
-	    badguy.kill();    
+	    badguy.kill(); 
+	    score += 10;
+	    scoreText.text = 'Score: ' + score;
+
 	}
 
 	function createEnemies(){
@@ -264,7 +283,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 			for(var j = 0; j < 1; j++){
 				var badguy = enemies.create(i * 70, 0, 'droid'); // spacing them
 				badguy.anchor.setTo(0.5, 0.5); // positioning them correctly
-	            badguy.animations.add('fly', [0,1], 20, true);	        
+	            badguy.animations.add('fly', [0,1], 20, true);	
 	    	}
 		}
 
@@ -279,13 +298,20 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	function enemyHitsPlayer(bullets, enemies) {
 	    bullets.kill();
 
+	    health -= 1;
+	    livesText.text = 'Lives: ' + health;
+
+	    if(health === 2 || health === 1){
+			player.reset(100,500)
+		}
+
 	    var live = lives.getFirstAlive();		
 		if (live)
 		    {
 		        live.kill();
 		    }
 		
-		if (lives.countLiving() < 1) {
+		if (health <= 0) {
 		        player.kill();
 		        enemyBullets.callAll('kill');
 		        var pdeath = game.add.audio('pdeath');
@@ -301,28 +327,31 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 	function enemyFires () {
     	var enemyBullet = enemyBullets.getFirstExists(false);
+   		enemyBullet.animations.add('fire', [0, 1], 12, true);
+    	enemyBullet.scale.setTo(1.5)
+   		
    		livingEnemies.length=0;
-    	enemies.forEachAlive(function(enemies){    		
-    	livingEnemies.push(enemies);
-    	var eshoot = game.add.audio('e_shoot');
-		eshoot.play(); 
-
+    	
+    	enemies.forEachAlive(function(badguy){   
+    		livingEnemies.push(badguy);
+    		var eshoot = game.add.audio('e_shoot');
+			eshoot.play(); 
     	});
 
-   	 	if (enemyBullet && livingEnemies.length > 0) {
-        	var random = game.rnd.integerInRange(0, livingEnemies.length-1);
-        	var shooter = livingEnemies[random];
-        	enemyBullet.reset(shooter.body.x+10, shooter.body.y-10);
+   	 	if (livingEnemies.length > 0) {
+        	var rnd = game.rnd.integerInRange(0, livingEnemies.length-1);
+        	var shooter = livingEnemies[rnd];
+        	
+        	enemyBullet.reset(shooter.body.x, shooter.body.y);
 
-        	game.physics.arcade.moveToObject(enemyBullet,player,120);
+        	game.physics.arcade.moveToObject(enemyBullet, player, 120);
         	firingTimer = game.time.now + 4000;
     	}
 	}
 	
-
 	function restart () {
 	   
-	    lives.callAll('revive');
+	    // lives.callAll('revive');
 	    
 	    // Resets enemies
 	    enemies.removeAll();    
@@ -347,6 +376,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 	    winText.visible = false;
 	    gameOver.visible = false;
+
+	    livesText.visible = false;
+ 	   	health = 3;
+	    livesText = game.add.text(game.world.width - 130, 10, 'Lives: ' + health, { fontSize: '32px', fill: '#fff' });
 
 	}
 
