@@ -16,23 +16,25 @@ html, body {
 	font-family: 'Press Start 2P', cursive;
 	text-align:center;
 	padding-top:300px;
-	text-transform: uppercase
+	text-transform: uppercase;
     
 }
 
 .containercontent h1 {
 	font-family: 'Press Start 2P', cursive;
 	font-size:50px;
-	text-shadow: 1.3px 1.3px black;
+	text-shadow: 1.5px 1.5px black;
 }	
 
 #button {
 	font-family: 'Press Start 2P', cursive;
-	background-color:pink;
 	outline:none;
 	height:50px;
 	width:200px;
 	border:none;
+	cursor:pointer;
+	border-radius:50px;
+	background-color:gray;
 
 }
 
@@ -43,9 +45,17 @@ a:-webkit-any-link{
 }
 
 a:hover {
-	color: blue;
+	color: black;
 }
 
 a:linked{
 	color:black;
+}
+
+.move {
+width: 50px;
+height:50px;
+
+position:fixed;
+    
 }

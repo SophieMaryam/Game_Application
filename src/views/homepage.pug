@@ -11,15 +11,38 @@ html
 				h1 ROBOCLIMBER
 				button#button
 					a(href="/game") Play Game
+				div.move
+					img(src="runningman.png")
 
 		script(type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js")
 		script.
 			$(document).ready(() => {
-				$('#contactsubmit ').hover(() => {
-					$('#contactsubmit ').css("background-color", "#262626")
+				$('#button').hover(() => {
+					$('#button').css("background-color", "#B22222")
 				});
 
-				$('#contactsubmit ').mouseleave(() => {
-					$('#contactsubmit').css("background-color", "black")
-				})
+				$('#button').mouseleave(() => {
+					$('#button').css("background-color", "	gray")
+				});
+
+				animateDiv();
 			});
+
+			function makeNewPosition(){
+			    var height = $(window).height() - 50;
+			    var width = $(window).width() - 50;
+			    
+			    var newh = Math.floor(Math.random() * height);
+			    var neww = Math.floor(Math.random() * width);
+			    
+			    return [newh,neww];    
+			    
+			}
+
+			function animateDiv(){
+			    var movement = makeNewPosition();
+			    $('.move').animate({top: movement[0], left: movement[1] }, function(){
+			      animateDiv();        
+			    });
+			    
+			};
