@@ -1,7 +1,8 @@
-html, body {
+.home {
 	margin:0;
 }
 
+/* Home Page*/
 .container {
 	background:url("backgroundpattern.png")no-repeat center center fixed;
 	background-size:cover;
@@ -55,7 +56,47 @@ a:linked{
 .move {
 width: 50px;
 height:50px;
+position:fixed;   
+}
 
-position:fixed;
-    
+/*Gamepage*/
+
+body {
+		padding:0px;
+		margin-left:180px;
+		margin-top:200px
+		background:white;
+}
+
+#gametitle {
+	font-family: 'Press Start 2P', cursive; margin-left:210px
+}
+
+#titlerules {
+	text-align:center;
+
+}
+
+#rules {
+	float:right;
+	margin-right:10px;
+	margin-top:50px;
+	margin-left:210px
+	width:100px;
+	font-family: 'Press Start 2P', cursive; 
+	border:1px solid black;
+	padding-bottom:10px;
+	padding-right:20px;
+}
+
+#rules ul {
+	list-style-type: none;
+	font-family: 'Press Start 2P', cursive; 
+	font-size:10px;
+}
+
+#run {
+	float:right;
+	bottom:0;
+
 }

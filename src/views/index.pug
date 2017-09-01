@@ -3,15 +3,28 @@ html
 	head
 		meta(charset="UTF-8")
 		script(type='text/javascript' src="js/phaser.js")
-			//- window.onload = function(){
-			//- var game = new Phaser.game(800, 600, Phaser.CANVAS, '')
-			//- }
-		title Game 
-		style.
-			body {
-				padding:0px;
-				margin: 0px;
-				background:white;
-			}
+		link(href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet")
+		link(rel="stylesheet" href="main.css" type="text/css")
+		title ROBOCLIMBER 
+
 	body
+		h1#gametitle ROBOCLIMBER
+
+		div#rules
+			h3#titlerules Rules
+			ul
+				li 1. Collect all the stars 
+				br
+				li 2. Kill all the bad guys
+				br
+				li 3. Don't get shot - you only have three lives
+				br
+				li 4. Spacebar: Jump
+				br
+				li 5. Shift: Shoot
+				br
+				li 6. Arrow Keys (L & R) for movement
+
+
+
 	script(type='text/javascript' src="js/main.js")
