@@ -257,7 +257,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 
 	    if (bullet){
 	        //  And fire it
-	        bullet.reset(player.x+5, player.y-45);
+	        bullet.reset(player.x-10, player.y-20);
 	        bullet.body.velocity.x = -400;
 	        nextFire = game.time.now + fireRate; 
 	        var shoot = game.add.audio('p_shoot');
@@ -350,8 +350,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	}
 	
 	function restart () {
-	   
-	    // lives.callAll('revive');
+	 
 	    
 	    // Resets enemies
 	    enemies.removeAll();    
@@ -366,7 +365,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		}
 
 
-	    // Revive the player
+		// Revive the player
 	    player.revive();
 	    player.reset(32, game.world.height - 150); // resets players position
 	    
