@@ -6,6 +6,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		game.load.image('star', 'assets/images/star.png');
 		game.load.atlasJSONHash('bot', 'assets/images/s.png', 'assets/images/sprites.json');	
 		game.load.image('bullet', 'assets/images/bullet.png');
+		game.load.image('boss', 'assets/images/boss.png');
 		game.load.image('tile', 'assets/images/tile_00.png');
 		game.load.image('threetile', 'assets/images/tile_02.png');
 		game.load.image('fourtile', 'assets/images/tile_03.png');
@@ -46,11 +47,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
     var livingEnemies = [];
     var tween;
     var tapRestart;
-    var spaceRestart;
     var backgroundmusic;
     var health = 3;
     var lives;
     var livesText;
+   
 
 
 	function create(){
@@ -157,12 +158,12 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		livesText = game.add.text(game.world.width - 130, 10, 'Lives: ' + health,  { font: '34px Arial', fill: '#fff' });
 
 		// Restart text
-		winText = game.add.text(game.world.centerX, game.world.centerY, ' ', { font: '84px Arial', fill: 'black' });
+		winText = game.add.text(game.world.centerX, game.world.centerY, ' ', { font: '84px Arial', fill: 'white' });
    		winText.anchor.setTo(0.5, 0.5);
     	winText.visible = false;
 
     	// Game Over
-    	gameOver = game.add.text(game.world.centerX, game.world.centerY, ' ', { font: '84px Arial', fill: 'black' });
+    	gameOver = game.add.text(game.world.centerX, game.world.centerY, ' ', { font: '84px Arial', fill: 'white' });
    		gameOver.anchor.setTo(0.5, 0.5);
     	gameOver.visible = false;
 
@@ -177,6 +178,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 			
 		// Score 
 		scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+
 	}
 
 
@@ -187,8 +189,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		game.physics.arcade.overlap(player, stars, collectStar, null, this);
 		game.physics.arcade.overlap(bullets, enemies, collisionHandler, null, this);
 	    game.physics.arcade.overlap(enemyBullets, player, enemyHitsPlayer, null, this);
+
 	    hitPlatform = player.body.velocity.x = 0;
-	
 
 		// Player movement
 	    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
@@ -225,6 +227,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
     	if (game.time.now > firingTimer){
            	enemyFires();
         }
+
 	}
 
 	function collectStar (player, star) {
@@ -239,13 +242,14 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	    scoreText.text = 'Score: ' + score;
 	    
 	    if(score === 160){
-	    	winText.text = " You Won, \n Click to restart";
+	    	winText.text = " You Won! \n Click to restart";
 	        winText.visible = true;
 	        var starcollect = game.add.audio('stargrab');
 			starcollect.play(); 
 	         //the "click to restart" handler
 	        tapRestart = game.input.onTap.addOnce(restart,this);
 	    }
+
 	}
 
 	function fireBullet() {	  
@@ -275,7 +279,6 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	    badguy.kill(); 
 	    score += 10;
 	    scoreText.text = 'Score: ' + score;
-
 	}
 
 	function createEnemies(){
@@ -317,7 +320,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 		        var pdeath = game.add.audio('pdeath');
 		    	pdeath.play(); 
 
-		        gameOver.text=" GAME OVER \n Click to restart";
+		        gameOver.text=" GAME OVER! \n Click to restart";
 		        gameOver.visible = true;
 
         		//the "click to restart" handler
@@ -348,13 +351,13 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
         	firingTimer = game.time.now + 4000;
     	}
 	}
-	
-	function restart () {
-	 
-	    
+
+
+	function restart () {	    
 	    // Resets enemies
 	    enemies.removeAll();    
 	    createEnemies();
+	    
 
 	    // Resets stars
 	    stars.removeAll();
@@ -379,12 +382,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser_game', { preload: prel
 	    livesText.visible = false;
  	   	health = 3;
 	    livesText = game.add.text(game.world.width - 130, 10, 'Lives: ' + health, { fontSize: '32px', fill: '#fff' });
-
 	}
 
-	
 	function render() {
 
 	}
-
-
