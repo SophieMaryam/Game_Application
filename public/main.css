@@ -1,5 +1,9 @@
+html, body {
+	margin:0;
+}
+
 .container {
-	background:url("https://giphy.com/embed/T1Ce0A4ToxXXO")no-repeat center center fixed;
+	background:url("backgroundpattern.png")no-repeat center center fixed;
 	background-size:cover;
 	-webkit-background-size: cover;
 	-o-background-size: cover;
@@ -9,7 +13,7 @@
 
 .containercontent {
 	color:white;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Press Start 2P', cursive;
 	text-align:center;
 	padding-top:300px;
 	text-transform: uppercase
@@ -17,6 +21,31 @@
 }
 
 .containercontent h1 {
-	text-shadow: 1.3px 1.3px black;
+	font-family: 'Press Start 2P', cursive;
 	font-size:50px;
+	text-shadow: 1.3px 1.3px black;
 }	
+
+#button {
+	font-family: 'Press Start 2P', cursive;
+	background-color:pink;
+	outline:none;
+	height:50px;
+	width:200px;
+	border:none;
+
+}
+
+a:-webkit-any-link{
+	color: black;
+    cursor: pointer;
+    text-decoration:none;
+}
+
+a:hover {
+	color: blue;
+}
+
+a:linked{
+	color:black;
+}

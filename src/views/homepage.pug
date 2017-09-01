@@ -3,10 +3,23 @@ html
 	head
 		title Homepage
 		link(rel="stylesheet" href="main.css" type="text/css")
-		link(href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet")
+		link(href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet")
 
 	body
-		div
-			iframe.container(src="https://giphy.com/embed/T1Ce0A4ToxXXO" width="480" height="271" frameBorder="0" class="giphy-embed" allowFullScreen)
+		div.container
 			div.containercontent 
 				h1 ROBOCLIMBER
+				button#button
+					a(href="/game") Play Game
+
+		script(type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js")
+		script.
+			$(document).ready(() => {
+				$('#contactsubmit ').hover(() => {
+					$('#contactsubmit ').css("background-color", "#262626")
+				});
+
+				$('#contactsubmit ').mouseleave(() => {
+					$('#contactsubmit').css("background-color", "black")
+				})
+			});
