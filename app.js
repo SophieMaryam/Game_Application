@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', bodyParser.urlencoded({extended:true}));
@@ -22,8 +23,7 @@ app.get('/game', function(req, res) {
 
 // Server
 app.listen(8080, () => {
-	console.log("Listening");
-	console.log(__dirname);
+	console.log("Listening on port", 8080);
 });
 
 
