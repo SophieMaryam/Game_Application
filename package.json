@@ -20,6 +20,6 @@
     "phaser": "^2.6.2",
     "promise": "^8.0.1",
     "pug": "^2.0.4",
-    "sequelize": "^4.44.3"
+    "sequelize": "^5.15.1"
   }
 }
